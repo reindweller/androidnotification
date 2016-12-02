@@ -2,4 +2,5 @@
 <resources>
     <string name="Hello">Hello World, Click Me!</string>
     <string name="ApplicationName">Notification</string>
+  <string name="google_maps_key">AIzaSyAiOw_mjEhfgsnBJBWpkRzxxUiIwNQThig</string>
 </resources>

@@ -41,6 +41,9 @@ namespace Notification
                 LaunchNotification("sample notif", "something happened");
             };
 
+            Button reservationBtn = FindViewById<Button>(Resource.Id.reservationBtn);
+            reservationBtn.Click += ReservationBtn_Click;
+
             Button mapBtn = FindViewById<Button>(Resource.Id.mapBtn);
             mapBtn.Click += MapBtn_Click;
 
@@ -48,6 +51,11 @@ namespace Notification
             logoutBtn.Click += LogoutBtn_Click;
 
             //Timer
+        }
+
+        private void ReservationBtn_Click(object sender, EventArgs e)
+        {
+            StartActivity(typeof(ReservationActivity));
         }
 
         private void MapBtn_Click(object sender, EventArgs e)

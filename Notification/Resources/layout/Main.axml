@@ -8,6 +8,11 @@
         android:id="@+id/launchButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+  <Button
+        android:text="Reservations"
+        android:id="@+id/reservationBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <Button
         android:text="Map"
         android:layout_width="match_parent"

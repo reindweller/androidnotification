@@ -11,6 +11,7 @@ using Android.Content.PM;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.Locations;
+using Android.Media;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.Content;
@@ -38,6 +39,7 @@ namespace Notification
         private LatLng pos;
         private Context _mContext;
         private AppPreferences _ap;
+        private int _userId;
 
         private Location _currentLocation;
         private LocationManager _locationManager;
@@ -56,42 +58,38 @@ namespace Notification
             SetContentView(Resource.Layout.Map);
             // Create your application here
 
-            //btnNormal = FindViewById<Button>(Resource.Id.btnNormal)
-            btnDistress = FindViewById<Button>(Resource.Id.btnDistress);
-            btnDistress.Click += BtnDistress_Click;
 
-            btnSubmitDistress = FindViewById<Button>(Resource.Id.btnSubmitDistress);
-            btnSubmitDistress.Click += BtnSubmitDistress_Click;
 
-            btnCancel = FindViewById<Button>(Resource.Id.btnCancel);
-            btnCancel.Click += BtnCancel_Click;
+            //layMapAction = FindViewById<LinearLayout>(Resource.Id.layMapAction);
+            //layDescription = FindViewById<LinearLayout>(Resource.Id.layDescription);
 
-            txtDescription = FindViewById<EditText>(Resource.Id.txtDescription);
-
-            layMapAction = FindViewById<LinearLayout>(Resource.Id.layMapAction);
-            layDescription = FindViewById<LinearLayout>(Resource.Id.layDescription);
-
+            _mContext = Android.App.Application.Context;
+            _ap = new AppPreferences(_mContext);
+            _userId = Convert.ToInt32(_ap.getUserIdKey());
 
             InitializeLocationManager();
-            if (_currentLocation == null)
-            {
-                Toast.MakeText(this.ApplicationContext, "Can't determine the current address. Try again in a few minutes.", ToastLength.Short).Show();
-            }
+            //if (_currentLocation == null)
+            //{
+            //    Toast.MakeText(this.ApplicationContext, "Can't determine the current address. Try again in a few minutes.", ToastLength.Short).Show();
+            //}
             SetUpMap();
+
+            
         }
 
 
-        async void GetCurrentAddress()
-        {
-            if (_currentLocation == null)
-            {
-                Toast.MakeText(this.ApplicationContext, "Can't determine the current address. Try again in a few minutes.", ToastLength.Short).Show();
-                return;
-            }
+        //async Task<LatLng> GetCurrentAddress()
+        //{
+        //    if (_currentLocation == null)
+        //    {
+        //        Toast.MakeText(this.ApplicationContext, "Can't determine the current address. Try again in a few minutes.", ToastLength.Short).Show();
+        //        return pos;
+        //    }
 
-            Address address = await ReverseGeocodeCurrentLocation();
-            pos = new LatLng(address.Latitude, address.Longitude);
-        }
+        //    Address address = await ReverseGeocodeCurrentLocation();
+        //    var retPos = new LatLng(address.Latitude, address.Longitude);
+        //    return retPos;
+        //}
 
         private void InitializeLocationManager()
         {
@@ -195,9 +193,7 @@ namespace Notification
 
         private void BtnSubmitDistress_Click(object sender, EventArgs e)
         {
-            //_mContext = Android.App.Application.Context;
-            //_ap = new AppPreferences(_mContext);
-            //string key = _ap.getUserIdKey();
+            
 
             //if (string.IsNullOrEmpty(key))
             //{
@@ -241,48 +237,42 @@ namespace Notification
             }
         }
 
-        public void OnMapReady(GoogleMap googleMap)
+        public async void OnMapReady(GoogleMap googleMap)
         {
-            GetCurrentAddress();
-
+            //LatLng currentPos = await GetCurrentAddress();
+            //pos = currentPos;
             mMap = googleMap;
 
 
-            string latStr = Intent.GetStringExtra("lat") ?? "";
-            string lngStr = Intent.GetStringExtra("lng") ?? "";
+            if (_locationManager == null) return;
 
-            LatLng latlng;
-            if (string.IsNullOrEmpty(latStr) || string.IsNullOrEmpty(lngStr))
+            _locationManager.RequestLocationUpdates(_locationProvider, 0, 0, this);
+            _currentLocation = _locationManager.GetLastKnownLocation(_locationProvider);
+
+            Address address = await ReverseGeocodeCurrentLocation();
+            DisplayAddress(address);
+        }
+
+        //private void MMap_MarkerDragEnd(object sender, GoogleMap.MarkerDragEndEventArgs e)
+        //{
+        //    pos = e.Marker.Position;
+
+        //}
+
+        public async void OnLocationChanged(Location location)
+        {
+            _currentLocation = location;
+            if (_currentLocation == null)
             {
-                latlng = pos;
+                //_locationText.Text = "Unable to determine your location. Try again in a short while.";
+                Toast.MakeText(this.ApplicationContext, "Unable to determine your location. Try again in a short while.", ToastLength.Short).Show();
             }
             else
             {
-                latlng = new LatLng(Convert.ToDouble(latStr), Convert.ToDouble(lngStr));
+                //_locationText.Text = string.Format("{0:f6},{1:f6}", _currentLocation.Latitude, _currentLocation.Longitude);
+                Address address = await ReverseGeocodeCurrentLocation();
+                DisplayAddress(address);
             }
-
-            CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 10);
-            mMap.MoveCamera(camera);
-            MarkerOptions options = new MarkerOptions()
-                .SetPosition(latlng)
-                .SetTitle("New York")
-                .SetSnippet("AKA: The big apple")
-                .Draggable(true);
-
-            mMap.AddMarker(options);
-            pos = latlng;
-            mMap.MarkerDragEnd += MMap_MarkerDragEnd;
-        }
-
-        private void MMap_MarkerDragEnd(object sender, GoogleMap.MarkerDragEndEventArgs e)
-        {
-            pos = e.Marker.Position;
-
-        }
-
-        public void OnLocationChanged(Location location)
-        {
-            throw new NotImplementedException();
         }
 
         public void OnProviderDisabled(string provider)
@@ -300,18 +290,19 @@ namespace Notification
             throw new NotImplementedException();
         }
 
-        protected override void OnResume()
+        protected override async void OnResume()
         {
-            //TODO: add permission check here
             base.OnResume();
-            //_locationManager.RequestLocationUpdates(_locationProvider, 0, 0, this);
+            _locationManager.RequestLocationUpdates(_locationProvider, 0, 0, this);
+            _currentLocation = _locationManager.GetLastKnownLocation(_locationProvider);
+            Address address = await ReverseGeocodeCurrentLocation();
+            DisplayAddress(address);
         }
 
         protected override void OnPause()
         {
-            //TODO: add permission check here
             base.OnPause();
-            //_locationManager.RemoveUpdates(this);
+            _locationManager.RemoveUpdates(this);
         }
 
         async Task<Address> ReverseGeocodeCurrentLocation()
@@ -322,6 +313,53 @@ namespace Notification
 
             Address address = addressList.FirstOrDefault();
             return address;
+        }
+
+        void DisplayAddress(Address address)
+        {
+            if (mMap == null)
+            {
+                return;
+            }
+            if (address != null)
+            {
+                StringBuilder deviceAddress = new StringBuilder();
+                for (int i = 0; i < address.MaxAddressLineIndex; i++)
+                {
+                    deviceAddress.AppendLine(address.GetAddressLine(i));
+                }
+                // Remove the last comma from the end of the address.
+                //_addressText.Text = deviceAddress.ToString();
+
+
+                LatLng latlng = new LatLng(address.Latitude, address.Longitude);
+                string latStr = Intent.GetStringExtra("lat") ?? "";
+                string lngStr = Intent.GetStringExtra("lng") ?? "";
+
+                if (latStr != "" && lngStr != "")
+                {
+                    latlng = new LatLng(Convert.ToDouble(latStr), Convert.ToDouble(lngStr));
+                }
+
+                CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 10);
+                mMap.MoveCamera(camera);
+
+                MarkerOptions options = new MarkerOptions()
+                    .SetPosition(latlng)
+                    .SetTitle(address.AdminArea)
+                    .SetSnippet(address.Locality)
+                    .Draggable(true);
+
+                mMap.AddMarker(options);
+                pos = latlng;
+                ReservationService reservationService = new ReservationService();
+                reservationService.UpdateLocation(latlng, _userId);
+                //mMap.MarkerDragEnd += MMap_MarkerDragEnd;
+            }
+            else
+            {
+                Toast.MakeText(this.ApplicationContext, "Unable to determine the address. Try again in a few minutes.", ToastLength.Short).Show();
+            }
         }
     }
 }

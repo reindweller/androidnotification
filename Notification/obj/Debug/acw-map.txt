@@ -10,6 +10,14 @@ Notification.MapActivity, Notification;md5aab20d78fd58b28edd95302081d6b986.MapAc
 Notification.MapActivity, Notification, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5aab20d78fd58b28edd95302081d6b986.MapActivity
 Notification.MapActivity;md5aab20d78fd58b28edd95302081d6b986.MapActivity
 notification.MapActivity;md5aab20d78fd58b28edd95302081d6b986.MapActivity
+Notification.ReservationActivity, Notification;md5aab20d78fd58b28edd95302081d6b986.ReservationActivity
+Notification.ReservationActivity, Notification, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5aab20d78fd58b28edd95302081d6b986.ReservationActivity
+Notification.ReservationActivity;md5aab20d78fd58b28edd95302081d6b986.ReservationActivity
+notification.ReservationActivity;md5aab20d78fd58b28edd95302081d6b986.ReservationActivity
+Notification.Adapters.ReservationAdapter, Notification;md587f50fa4d867881b607a4e3eb8571581.ReservationAdapter
+Notification.Adapters.ReservationAdapter, Notification, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md587f50fa4d867881b607a4e3eb8571581.ReservationAdapter
+Notification.Adapters.ReservationAdapter;md587f50fa4d867881b607a4e3eb8571581.ReservationAdapter
+notification.adapters.ReservationAdapter;md587f50fa4d867881b607a4e3eb8571581.ReservationAdapter
 Android.Support.V4.View.ViewPager/IOnPageChangeListenerImplementor, Xamarin.Android.Support.v4;mono.android.support.v4.view.ViewPager_OnPageChangeListenerImplementor
 Android.Support.V4.View.ViewPager+IOnPageChangeListenerImplementor, Xamarin.Android.Support.v4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;mono.android.support.v4.view.ViewPager_OnPageChangeListenerImplementor
 Android.Support.V4.View.ViewPager.IOnPageChangeListenerImplementor;mono.android.support.v4.view.ViewPager_OnPageChangeListenerImplementor
@@ -102,6 +110,18 @@ Android.Gms.Security.ProviderInstaller/IProviderInstallListenerImplementor, Xama
 Android.Gms.Security.ProviderInstaller+IProviderInstallListenerImplementor, Xamarin.GooglePlayServices.Basement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;mono.com.google.android.gms.security.ProviderInstaller_ProviderInstallListenerImplementor
 Android.Gms.Security.ProviderInstaller.IProviderInstallListenerImplementor;mono.com.google.android.gms.security.ProviderInstaller_ProviderInstallListenerImplementor
 mono.com.google.android.gms.security.ProviderInstaller_ProviderInstallListenerImplementor;mono.com.google.android.gms.security.ProviderInstaller_ProviderInstallListenerImplementor
+Android.Gms.Location.LocationListener, Xamarin.GooglePlayServices.Location;md5c3f794aca97c55dc0e6d5992e563f700.LocationListener
+Android.Gms.Location.LocationListener, Xamarin.GooglePlayServices.Location, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5c3f794aca97c55dc0e6d5992e563f700.LocationListener
+Android.Gms.Location.LocationListener;md5c3f794aca97c55dc0e6d5992e563f700.LocationListener
+android.gms.location.LocationListener;md5c3f794aca97c55dc0e6d5992e563f700.LocationListener
+Android.Gms.Location.ILocationListenerImplementor, Xamarin.GooglePlayServices.Location;mono.com.google.android.gms.location.LocationListenerImplementor
+Android.Gms.Location.ILocationListenerImplementor, Xamarin.GooglePlayServices.Location, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;mono.com.google.android.gms.location.LocationListenerImplementor
+Android.Gms.Location.ILocationListenerImplementor;mono.com.google.android.gms.location.LocationListenerImplementor
+mono.com.google.android.gms.location.LocationListenerImplementor;mono.com.google.android.gms.location.LocationListenerImplementor
+Android.Gms.Location.Places.UI.IPlaceSelectionListenerImplementor, Xamarin.GooglePlayServices.Location;mono.com.google.android.gms.location.places.ui.PlaceSelectionListenerImplementor
+Android.Gms.Location.Places.UI.IPlaceSelectionListenerImplementor, Xamarin.GooglePlayServices.Location, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;mono.com.google.android.gms.location.places.ui.PlaceSelectionListenerImplementor
+Android.Gms.Location.Places.UI.IPlaceSelectionListenerImplementor;mono.com.google.android.gms.location.places.ui.PlaceSelectionListenerImplementor
+mono.com.google.android.gms.location.places.ui.PlaceSelectionListenerImplementor;mono.com.google.android.gms.location.places.ui.PlaceSelectionListenerImplementor
 Android.Gms.Maps.GoogleMap/IOnCameraChangeListenerImplementor, Xamarin.GooglePlayServices.Maps;mono.com.google.android.gms.maps.GoogleMap_OnCameraChangeListenerImplementor
 Android.Gms.Maps.GoogleMap+IOnCameraChangeListenerImplementor, Xamarin.GooglePlayServices.Maps, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;mono.com.google.android.gms.maps.GoogleMap_OnCameraChangeListenerImplementor
 Android.Gms.Maps.GoogleMap.IOnCameraChangeListenerImplementor;mono.com.google.android.gms.maps.GoogleMap_OnCameraChangeListenerImplementor

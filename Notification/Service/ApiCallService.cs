@@ -68,6 +68,22 @@ namespace Notification.Service
             return response;
         }
 
+        public static async Task<HttpWebResponse> UpdateRequestAsync<TModel>(TModel model, string url)
+        {
+            System.Net.HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "PUT";
+            request.ContentType = "application/json";
+            //JavaScriptSerializer serializer = new JavaScriptSerializer();
+            using (var sw = new StreamWriter(request.GetRequestStream()))
+            {
+                string json = JsonConvert.SerializeObject(model);
+                sw.Write(json);
+                sw.Flush();
+            }
+            HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync();
+            return response;
+        }
+
 
         public static HttpWebResponse GetAllRequest(string url)
         {
